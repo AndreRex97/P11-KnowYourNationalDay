@@ -24,6 +24,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -165,7 +166,55 @@ public class MainActivity extends AppCompatActivity {
             AlertDialog alertDialog = builder.create();
             alertDialog.show();
         } else if (item.getItemId() == R.id.quiz) {
+            LayoutInflater inflater = (LayoutInflater)
+                    getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            LinearLayout quiz =
+                    (LinearLayout) inflater.inflate(R.layout.quiz, null);
+            final RadioGroup rg1 = (RadioGroup)quiz.findViewById(R.id.rg1);
+            final RadioGroup rg2 = (RadioGroup)quiz.findViewById(R.id.rg2);
+            final RadioGroup rg3 = (RadioGroup)quiz.findViewById(R.id.rg3);
 
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Test Yourself!")
+                    .setView(quiz)
+                    .setCancelable(false)
+                    .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int id) {
+                            String result = "";
+                            int selectedButtonId1 = rg1.getCheckedRadioButtonId();
+                            int selectedButtonId2 = rg2.getCheckedRadioButtonId();
+                            int selectedButtonId3 = rg3.getCheckedRadioButtonId();
+                            if(selectedButtonId1 == R.id.radioButton){
+                                result += "Answer 1: Wrong\n";
+                            }
+                            else{
+                                result += "Answer 1: Correct\n";
+                            }
+                            if(selectedButtonId2 == R.id.radioButton3){
+                                result += "Answer 2: Correct\n";
+                            }
+                            else{
+                                result += "Answer 2: Wrong\n";
+                            }
+                            if(selectedButtonId3 == R.id.radioButton5){
+                                result += "Answer 3: Correct\n";
+                            }
+                            else{
+                                result += "Answer 3: Wrong\n";
+                            }
+                            Toast.makeText(MainActivity.this, result,
+                                    Toast.LENGTH_LONG).show();
+                        }
+                    })
+                    .setNegativeButton("Don't Know Lah", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            Toast.makeText(MainActivity.this, "Buck Up Pls!",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    });
+            AlertDialog alertDialog = builder.create();
+            alertDialog.show();
 
         } else if (item.getItemId() == R.id.quit) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
